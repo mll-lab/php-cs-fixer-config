@@ -33,6 +33,10 @@ const RULES = [
     'operator_linebreak' => [
         'position' => 'beginning',
     ],
+    'phpdoc_no_alias_tag' => [
+        'type' => 'var',
+        'link' => 'see',
+    ],
     'phpdoc_order' => true,
     'phpdoc_align' => [
         'align' => 'left',
