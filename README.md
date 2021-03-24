@@ -26,5 +26,8 @@ $finder = PhpCsFixer\Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return config($finder);
+// optionally merge more rules here
+$mergeRules = ['@Symfony' => true]
+
+return config($finder, $mergeRules);
 ```
