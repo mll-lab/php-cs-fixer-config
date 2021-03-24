@@ -28,3 +28,18 @@ $finder = PhpCsFixer\Finder::create()
 
 return config($finder);
 ```
+
+Override rules:
+
+```php
+return config($finder, [
+    'some_rule' => false
+]);
+```
+
+Customize config:
+
+```php
+return config($finder)
+    ->setHideProgress(true);
+```
