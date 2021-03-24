@@ -8,3 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 You can find and compare releases at the [GitHub release page](https://github.com/mll-lab/php-cs-fixer-config/releases).
 
 ## Unreleased
+
+## v1.0.0
+
+### Added
+
+- Add `MLL\PhpCsFixerRules\config()`
