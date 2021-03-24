@@ -61,6 +61,7 @@ const RULES = [
 
     // Risky rules
     'declare_strict_types' => true,
+    'logical_operators' => true,
 ];
 
 /**
