@@ -16,8 +16,10 @@ const RULES = [
         'spacing' => 'one',
     ],
     'class_attributes_separation' => [
-        'method' => 'one',
-        'property' => 'one',
+        'elements' => [
+            'method',
+            'property',
+        ],
     ],
     'heredoc_indentation' => true,
     'method_argument_space' => [
