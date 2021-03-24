@@ -11,12 +11,7 @@ const RULES = [
     '@Symfony' => true,
 
     'array_indentation' => true,
-    'array_syntax' => [
-        'syntax' => 'short',
-    ],
-    'binary_operator_spaces' => [
-        'default' => 'single_space',
-    ],
+    'combine_consecutive_unsets' => true,
     'concat_space' => [
         'spacing' => 'one',
     ],
@@ -30,11 +25,11 @@ const RULES = [
     'method_argument_space' => [
         'on_multiline' => 'ensure_fully_multiline',
     ],
-    'linebreak_after_opening_tag' => true,
     'new_with_braces' => true,
+    'no_superfluous_elseif' => true,
     'no_superfluous_phpdoc_tags' => true,
+    'no_useless_else' => true,
     'not_operator_with_successor_space' => true,
-    'ordered_imports' => true,
     'operator_linebreak' => [
         'position' => 'beginning',
     ],
@@ -53,11 +48,6 @@ const RULES = [
             'method',
         ],
     ],
-    'phpdoc_no_alias_tag' => [
-        'type' => 'var',
-        'link' => 'see',
-    ],
-    'phpdoc_no_empty_return' => false,
     'single_line_throw' => false,
 
     // Risky rules
