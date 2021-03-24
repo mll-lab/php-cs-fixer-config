@@ -29,6 +29,14 @@ $finder = PhpCsFixer\Finder::create()
 return config($finder);
 ```
 
+Enable risky:
+
+```php
+use function MLL\PhpCsFixerRules\risky;
+
+return risky($finder);
+```
+
 Override rules:
 
 ```php

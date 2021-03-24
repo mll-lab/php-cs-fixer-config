@@ -49,8 +49,9 @@ const RULES = [
         ],
     ],
     'single_line_throw' => false,
+];
 
-    // Risky rules
+const RISKY_RULES = [
     'declare_strict_types' => true,
     'logical_operators' => true,
 ];
@@ -64,6 +65,16 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 {
     return (new Config())
         ->setFinder($finder)
-        ->setRiskyAllowed(true)
         ->setRules(array_merge(RULES, $ruleOverrides));
+}
+
+/**
+ * Create a php-cs-fixer config with risky rules.
+ *
+ * @param array<string, mixed> $ruleOverrides Custom rules that override the ones from this config
+ */
+function risky(Finder $finder, array $ruleOverrides = []): Config
+{
+    return config($finder, array_merge(RISKY_RULES, $ruleOverrides))
+        ->setRiskyAllowed(true);
 }
