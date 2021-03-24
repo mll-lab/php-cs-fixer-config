@@ -14,11 +14,11 @@
     }
   ],
   "require": {
-    "php": "^7.4"
+    "php": "^7.4",
+    "friendsofphp/php-cs-fixer": "^2"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.13",
-    "friendsofphp/php-cs-fixer": "^2"
+    "ergebnis/composer-normalize": "^2.13"
   },
   "autoload": {
     "files": [
