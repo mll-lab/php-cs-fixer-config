@@ -1,0 +1,28 @@
+{
+  "name": "mll-lab/php-cs-fixer-config",
+  "type": "library",
+  "description": "Shared rules for php-cs-fixer",
+  "keywords": [
+    "php",
+    "php-cs-fixer"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Benedikt Franke",
+      "email": "benedikt@franke.tech"
+    }
+  ],
+  "require": {
+    "php": "^7.4"
+  },
+  "require-dev": {
+    "ergebnis/composer-normalize": "^2.13",
+    "friendsofphp/php-cs-fixer": "^2"
+  },
+  "autoload": {
+    "files": [
+      "config.php"
+    ]
+  }
+}
