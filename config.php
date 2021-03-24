@@ -10,6 +10,7 @@ use PhpCsFixer\Finder;
 const RULES = [
     '@Symfony' => true,
 
+    'array_indentation' => true,
     'array_syntax' => [
         'syntax' => 'short',
     ],
