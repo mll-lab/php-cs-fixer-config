@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace MLL\PhpCsFixerRules;
 
@@ -57,6 +55,12 @@ const RULES = [
 
 const RISKY_RULES = [
     'declare_strict_types' => true,
+    // Technically not strict rules, but they go hand-in-hand with declare_strict_types
+    // to achieve a first line of: "<?php declare(strict_types=1);" with no extra newlines
+    // see https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4252
+    'linebreak_after_opening_tag' => false,
+    'blank_line_after_opening_tag' => false,
+
     'logical_operators' => true,
 ];
 
