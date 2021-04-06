@@ -17,19 +17,18 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
+    const CAMEL_CASE = 'camel_case';
+    const SNAKE_CASE = 'snake_case';
+
     public function getName(): string
     {
         return 'MLL/variable_case';
     }
 
-    const CAMEL_CASE = 'camel_case';
-
-    const SNAKE_CASE = 'snake_case';
-
     public function getDefinition(): FixerDefinition
     {
         return new FixerDefinition(
-            'Enforce camel (or snake) case for variable names, following configuration.',
+            'Enforce consistent casing for variable names.',
             [
                 new CodeSample("<?php \$my_variable = 2;\n"),
                 new CodeSample("<?php \$myVariable = 2;\n", ['case' => self::SNAKE_CASE]),
