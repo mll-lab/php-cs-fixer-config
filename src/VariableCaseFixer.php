@@ -12,6 +12,9 @@ use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/5097
+ */
 final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefinitionFixerInterface
 {
     public function getName(): string
