@@ -76,13 +76,17 @@ final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefi
 
     private function camelCase(string $string): string
     {
-        $string = Preg::replace('/_/i', ' ', $string);
+        // Preserve leading underscores
+        $lead = [];
+        Preg::match('/^\$?_*/', $string, $lead);
+
+        $string = Preg::replace('/[$_]/i', ' ', $string);
         $string = trim($string);
         // uppercase the first character of each word
         $string = ucwords($string);
         $string = str_replace(' ', '', $string);
 
-        return lcfirst($string);
+        return $lead[0] . lcfirst($string);
     }
 
     private function snakeCase(string $string, string $separator = '_'): string

@@ -31,6 +31,9 @@ final class VariableCaseFixerTest extends AbstractFixerTestCase
                 '<?php $test_variable = 2;',
             ],
             [
+                '<?php $_ = 2;',
+            ],
+            [
                 '<?php $testVariable = 2; echo "hi $testVariable!";',
                 '<?php $test_variable = 2; echo "hi $test_variable!";',
             ],
