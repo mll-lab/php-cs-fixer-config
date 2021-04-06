@@ -9,6 +9,16 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v3.0.0
+
+### Added
+
+- Add custom fixer `MLL/variable_case`
+
+### Changed
+
+- Change namespace to `MLL\PhpCsFixerConfig`
+
 ## v2.1.0
 
 ### Changed
