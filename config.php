@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace MLL\PhpCsFixerRules;
+namespace MLL\PhpCsFixerConfig;
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
@@ -62,6 +62,8 @@ const RISKY_RULES = [
     'blank_line_after_opening_tag' => false,
 
     'logical_operators' => true,
+
+    'MLL/variable_case' => true,
 ];
 
 /**
@@ -73,6 +75,9 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 {
     return (new Config())
         ->setFinder($finder)
+        ->registerCustomFixers([
+            new VariableCaseFixer(),
+        ])
         ->setRules(array_merge(RULES, $ruleOverrides));
 }
 

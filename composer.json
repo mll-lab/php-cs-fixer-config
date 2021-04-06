@@ -19,17 +19,21 @@
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.13",
-    "phpunit/phpunit": "^8",
-    "sanmai/phpunit-legacy-adapter": "^6 || ^8"
+    "phpunit/phpunit": "^9",
+    "sanmai/phpunit-legacy-adapter": "^8.2",
+    "symfony/phpunit-bridge": "^5.2"
   },
   "autoload": {
+    "psr-4": {
+      "MLL\\PhpCsFixerConfig\\": "src/"
+    },
     "files": [
       "config.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "MLL\\PhpCsFixerConfig\\Tests\\": "tests/"
     }
   }
 }

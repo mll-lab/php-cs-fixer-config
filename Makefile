@@ -1,5 +1,5 @@
 .PHONY: it
-it: fix normalize ## Perform quality checks
+it: fix test normalize ## Perform quality checks
 
 .PHONY: help
 help: ## Displays this list of targets with descriptions
@@ -11,6 +11,10 @@ setup: vendor ## Set up the project
 .PHONY: fix
 fix: ## Format PHP
 	vendor/bin/php-cs-fixer fix
+
+.PHONY: test
+test: ## Run tests
+	vendor/bin/phpunit
 
 .PHONY: normalize
 normalize: ## Normalize composer.json

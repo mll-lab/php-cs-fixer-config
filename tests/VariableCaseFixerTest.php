@@ -1,42 +1,29 @@
 <?php declare(strict_types=1);
 
-/*
- * This file is part of PHP CS Fixer.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+namespace MLL\PhpCsFixerConfig\Tests;
 
-namespace Tests\Fixer\Casing;
+use MLL\PhpCsFixerConfig\VariableCaseFixer;
+use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
-use MLL\PhpCsFixerRules\Fixer\Casing\VariableCaseFixer;
-use PhpCsFixer\Test\AbstractFixerTestCase;
-
-
-/**
- * @author Jennifer Konikowski <jennifer@testdouble.com>
- *
- * @internal
- *
- * @covers \PhpCsFixer\Fixer\Casing\VariableCaseFixer
- */
-final class VariableCaseFixerTest extends  AbstractFixerTestCase
+final class VariableCaseFixerTest extends AbstractFixerTestCase
 {
+    protected function createFixer(): VariableCaseFixer
+    {
+        return new VariableCaseFixer();
+    }
+
     /**
-     * @param string $expected
-     * @param string|null $input
-     *
      * @dataProvider provideCamelCaseFixCases
      */
-    public function testCamelCaseFix($expected, $input = null)
+    public function testCamelCaseFix(string $expected, string $input = null): void
     {
         $this->doTest($expected, $input);
     }
 
-    public function provideCamelCaseFixCases()
+    /**
+     * @return array<int, array{0: string, 0?: string}>
+     */
+    public function provideCamelCaseFixCases(): array
     {
         return [
             [
@@ -71,18 +58,18 @@ final class VariableCaseFixerTest extends  AbstractFixerTestCase
     }
 
     /**
-     * @param string $expected
-     * @param string|null $input
-     *
      * @dataProvider provideSnakeCaseFixCases
      */
-    public function testSnakeCaseFix($expected, $input = null)
+    public function testSnakeCaseFix(string $expected, string $input = null): void
     {
         $this->fixer->configure(['case' => VariableCaseFixer::SNAKE_CASE]);
         $this->doTest($expected, $input);
     }
 
-    public function provideSnakeCaseFixCases()
+    /**
+     * @return array<int, array{0: string, 0?: string}>
+     */
+    public function provideSnakeCaseFixCases(): array
     {
         return [
             [
