@@ -76,9 +76,20 @@ final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefi
 
     private function camelCase(string $string): string
     {
+        $leadingDollar = '';
+        if ($string[0] === '$') {
+            $string = substr($string, 1);
+            $leadingDollar = '$';
+        }
+
         // Preserve leading underscores
-        $lead = [];
-        Preg::match('/^\$?_*/', $string, $lead);
+        $leadingUnderscoreMatches = [];
+        Preg::match('/^_*/', $string, $leadingUnderscoreMatches);
+        $leadingUnderscores = $leadingUnderscoreMatches[0] ?? '';
+
+        if (array_key_exists($string, $GLOBALS)) {
+            return $leadingDollar . $string;
+        }
 
         $string = Preg::replace('/[$_]/i', ' ', $string);
         $string = trim($string);
@@ -86,7 +97,7 @@ final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefi
         $string = ucwords($string);
         $string = str_replace(' ', '', $string);
 
-        return $lead[0] . lcfirst($string);
+        return $leadingDollar . $leadingUnderscores . lcfirst($string);
     }
 
     private function snakeCase(string $string, string $separator = '_'): string
