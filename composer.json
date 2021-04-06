@@ -18,11 +18,18 @@
     "friendsofphp/php-cs-fixer": "^2"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.13"
+    "ergebnis/composer-normalize": "^2.13",
+    "phpunit/phpunit": "^8",
+    "sanmai/phpunit-legacy-adapter": "^6 || ^8"
   },
   "autoload": {
     "files": [
       "config.php"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
   }
 }
