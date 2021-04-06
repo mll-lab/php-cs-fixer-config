@@ -17,7 +17,7 @@ In your `.php_cs`:
 ```php
 <?php declare(strict_types=1);
 
-use function MLL\PhpCsFixerRules\config;
+use function MLL\PhpCsFixerConfig\config;
 
 $finder = PhpCsFixer\Finder::create()
     ->notPath('vendor')
@@ -32,7 +32,7 @@ return config($finder);
 Enable risky:
 
 ```php
-use function MLL\PhpCsFixerRules\risky;
+use function MLL\PhpCsFixerConfig\risky;
 
 return risky($finder);
 ```

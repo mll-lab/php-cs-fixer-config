@@ -1,0 +1,25 @@
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+name: "Validate"
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          extensions: mbstring
+          php-version: 7.4
+
+      - run: composer install --no-interaction --no-progress
+
+      - run: vendor/bin/phpunit

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use function MLL\PhpCsFixerRules\risky;
+use function MLL\PhpCsFixerConfig\risky;
 
 $finder = PhpCsFixer\Finder::create()
     ->notPath('vendor')

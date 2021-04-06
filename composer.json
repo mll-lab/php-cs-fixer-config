@@ -18,11 +18,22 @@
     "friendsofphp/php-cs-fixer": "^2"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.13"
+    "ergebnis/composer-normalize": "^2.13",
+    "phpunit/phpunit": "^9",
+    "sanmai/phpunit-legacy-adapter": "^8.2",
+    "symfony/phpunit-bridge": "^5.2"
   },
   "autoload": {
+    "psr-4": {
+      "MLL\\PhpCsFixerConfig\\": "src/"
+    },
     "files": [
       "config.php"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MLL\\PhpCsFixerConfig\\Tests\\": "tests/"
+    }
   }
 }
