@@ -77,7 +77,7 @@ final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefi
     private function camelCase(string $string): string
     {
         $leadingDollar = '';
-        if ($string[0] === '$') {
+        if ('$' === $string[0]) {
             $string = substr($string, 1);
             $leadingDollar = '$';
         }
