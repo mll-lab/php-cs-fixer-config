@@ -62,8 +62,6 @@ const RISKY_RULES = [
     'blank_line_after_opening_tag' => false,
 
     'logical_operators' => true,
-
-    'MLL/variable_case' => true,
 ];
 
 /**
@@ -75,9 +73,6 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 {
     return (new Config())
         ->setFinder($finder)
-        ->registerCustomFixers([
-            new VariableCaseFixer(),
-        ])
         ->setRules(array_merge(RULES, $ruleOverrides));
 }
 
@@ -89,5 +84,10 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 function risky(Finder $finder, array $ruleOverrides = []): Config
 {
     return config($finder, array_merge(RISKY_RULES, $ruleOverrides))
+        ->registerCustomFixers([
+            // Experimental, enable with: 'MLL/variable_case' => true
+            // but take care because it has issues: https://github.com/mll-lab/php-cs-fixer-config/issues/4
+            new VariableCaseFixer(),
+        ])
         ->setRiskyAllowed(true);
 }
