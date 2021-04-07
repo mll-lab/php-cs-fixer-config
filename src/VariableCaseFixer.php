@@ -60,7 +60,19 @@ final class VariableCaseFixer extends AbstractFixer implements ConfigurationDefi
 
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
+        /**
+         * @var $index
+         * @var Token $token
+         */
         foreach ($tokens as $index => $token) {
+            // TODO identify that in the following token stream, foo_bar should be fooBar
+            var_dump($token->getName(), $token->getContent());
+            //string(10) "T_VARIABLE"
+            //string(5) "$this"
+            //string(17) "T_OBJECT_OPERATOR"
+            //string(2) "->"
+            //string(8) "T_STRING"
+            //string(7) "foo_bar"
             if ((T_VARIABLE === $token->getId()) || (T_STRING_VARNAME === $token->getId())) {
                 $tokens[$index] = new Token([$token->getId(), $this->updateVariableCasing($token->getContent())]);
             }

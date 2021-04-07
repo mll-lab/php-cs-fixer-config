@@ -60,6 +60,10 @@ final class VariableCaseFixerTest extends AbstractFixerTestCase
                 '<?php function f($barBaz, $file) { require $file;}',
                 '<?php function f($bar_baz, $file) { require $file;}',
             ],
+            [
+                '<?php class F { public $fooBar = 1; public function test() { $this->fooBar = 0; } } ?>',
+                '<?php class F { public $foo_bar = 1; public function test() { $this->foo_bar = 0; } } ?>',
+            ],
         ];
     }
 
