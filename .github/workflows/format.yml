@@ -17,7 +17,6 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          extensions: mbstring
           php-version: 7.4
 
       - run: composer install --no-interaction --no-progress
@@ -37,7 +36,6 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          extensions: mbstring
           php-version: 7.4
 
       - run: composer install --no-interaction --no-progress
