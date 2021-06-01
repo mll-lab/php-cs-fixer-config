@@ -18,10 +18,7 @@
     "friendsofphp/php-cs-fixer": "^3"
   },
   "require-dev": {
-    "ergebnis/composer-normalize": "^2.13",
-    "phpunit/phpunit": "^9",
-    "sanmai/phpunit-legacy-adapter": "^8.2",
-    "symfony/phpunit-bridge": "^5.2"
+    "ergebnis/composer-normalize": "^2.13"
   },
   "autoload": {
     "psr-4": {
@@ -30,10 +27,5 @@
     "files": [
       "config.php"
     ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "MLL\\PhpCsFixerConfig\\Tests\\": "tests/"
-    }
   }
 }

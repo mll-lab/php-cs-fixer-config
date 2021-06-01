@@ -12,10 +12,6 @@ setup: vendor ## Set up the project
 fix: ## Format PHP
 	vendor/bin/php-cs-fixer fix
 
-.PHONY: test
-test: ## Run tests
-	vendor/bin/phpunit
-
 .PHONY: normalize
 normalize: ## Normalize composer.json
 	composer normalize
