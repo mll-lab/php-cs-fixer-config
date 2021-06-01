@@ -12,7 +12,7 @@ Shared configuration for php-cs-fixer
 
 ## Usage
 
-In your `.php_cs`:
+In your `.php-cs-fixer.php`:
 
 ```php
 <?php declare(strict_types=1);
@@ -29,7 +29,7 @@ $finder = PhpCsFixer\Finder::create()
 return config($finder);
 ```
 
-Enable risky:
+Enable risky rules:
 
 ```php
 use function MLL\PhpCsFixerConfig\risky;
@@ -41,7 +41,7 @@ Override rules:
 
 ```php
 return config($finder, [
-    'some_rule' => false
+    'some_rule' => false,
 ]);
 ```
 

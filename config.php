@@ -15,8 +15,8 @@ const RULES = [
     ],
     'class_attributes_separation' => [
         'elements' => [
-            'method',
-            'property',
+            'method' => 'one',
+            'property' => 'one',
         ],
     ],
     'heredoc_indentation' => true,
@@ -32,8 +32,10 @@ const RULES = [
         'position' => 'beginning',
     ],
     'phpdoc_no_alias_tag' => [
-        'type' => 'var',
-        'link' => 'see',
+        'replacements' => [
+            'type' => 'var',
+            'link' => 'see',
+        ],
     ],
     'phpdoc_order' => true,
     'phpdoc_align' => [
@@ -84,10 +86,5 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 function risky(Finder $finder, array $ruleOverrides = []): Config
 {
     return config($finder, array_merge(RISKY_RULES, $ruleOverrides))
-        ->registerCustomFixers([
-            // Experimental, enable with: 'MLL/variable_case' => true
-            // but take care because it has issues: https://github.com/mll-lab/php-cs-fixer-config/issues/4
-            new VariableCaseFixer(),
-        ])
         ->setRiskyAllowed(true);
 }

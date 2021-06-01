@@ -9,6 +9,14 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+### Changed
+
+- Upgrade to `friendsofphp/php-cs-fixer:^3`
+
+### Removed
+
+- Remove custom fixer `MLL/variable_case`
+
 ## v3.0.1
 
 ### Changed
