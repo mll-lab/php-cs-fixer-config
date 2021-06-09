@@ -9,6 +9,13 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v4.1.0
+
+### Changed
+
+- No alignment in PHPDocs to preserve complex array shapes
+- Allow intermediary PHPDocs to provide type assertions for PHPStan
+
 ## v4.0.0
 
 ### Changed

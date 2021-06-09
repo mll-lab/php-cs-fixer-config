@@ -31,6 +31,10 @@ const RULES = [
     'operator_linebreak' => [
         'position' => 'beginning',
     ],
+
+    // Messes with complex array shapes
+    'phpdoc_align' => false,
+
     'phpdoc_no_alias_tag' => [
         'replacements' => [
             'type' => 'var',
@@ -38,25 +42,16 @@ const RULES = [
         ],
     ],
     'phpdoc_order' => true,
-    'phpdoc_align' => [
-        'align' => 'left',
-        'tags' => [
-            'param',
-            'property',
-            'property-read',
-            'property-write',
-            'return',
-            'throws',
-            'type',
-            'var',
-            'method',
-        ],
-    ],
+
+    // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
+    'phpdoc_to_comment' => false,
+
     'single_line_throw' => false,
 ];
 
 const RISKY_RULES = [
     'declare_strict_types' => true,
+
     // Technically not strict rules, but they go hand-in-hand with declare_strict_types
     // to achieve a first line of: "<?php declare(strict_types=1);" with no extra newlines
     // see https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4252
