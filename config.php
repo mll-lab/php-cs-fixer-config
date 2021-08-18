@@ -19,6 +19,7 @@ const RULES = [
             'property' => 'one',
         ],
     ],
+    'global_namespace_import' => true,
     'heredoc_indentation' => true,
     'method_argument_space' => [
         'on_multiline' => 'ensure_fully_multiline',
