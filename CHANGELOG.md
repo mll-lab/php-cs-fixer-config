@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v4.3.0
+
+### Changed
+
+- Downgrade the required PHP version to `^7.2`
+
 ## v4.2.0
 
 ### Added
