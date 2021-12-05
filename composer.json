@@ -1,12 +1,12 @@
 {
   "name": "mll-lab/php-cs-fixer-config",
-  "type": "library",
   "description": "Shared rules for php-cs-fixer",
+  "license": "MIT",
+  "type": "library",
   "keywords": [
     "php",
     "php-cs-fixer"
   ],
-  "license": "MIT",
   "authors": [
     {
       "name": "Benedikt Franke",
