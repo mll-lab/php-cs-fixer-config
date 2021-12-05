@@ -9,6 +9,10 @@ const RULES = [
     '@Symfony' => true,
 
     'array_indentation' => true,
+    'binary_operator_spaces' => [
+        'default' => 'single_space',
+        'operators' => [],
+    ],
     'combine_consecutive_unsets' => true,
     'concat_space' => [
         'spacing' => 'one',
