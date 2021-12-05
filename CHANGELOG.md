@@ -11,6 +11,8 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## v4.4.0
 
+### Changed
+
 - Always have single space around binary operators
 
 ## v4.3.0
