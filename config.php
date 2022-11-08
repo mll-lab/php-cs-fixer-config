@@ -23,6 +23,7 @@ const RULES = [
             'property' => 'one',
         ],
     ],
+    'explicit_string_variable' => true,
     'heredoc_indentation' => false,
     'method_argument_space' => [
         'on_multiline' => 'ensure_fully_multiline',
