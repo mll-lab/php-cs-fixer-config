@@ -9,11 +9,15 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
-## v4.6.0
+## v5.0.0
 
 ### Added
 
 - Add `DeclareAfterOpeningTagFixer` from `kubawerlos/php-cs-fixer-custom-fixers`
+
+### Changed
+
+- Require PHP 7.4
 
 ## v4.5.0
 

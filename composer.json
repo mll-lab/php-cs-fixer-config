@@ -14,9 +14,9 @@
     }
   ],
   "require": {
-    "php": "^7.2 || ^8",
+    "php": "^7.4 || ^8",
     "friendsofphp/php-cs-fixer": "^3",
-    "kubawerlos/php-cs-fixer-custom-fixers": "^2 || ^3.12"
+    "kubawerlos/php-cs-fixer-custom-fixers": "^^3.12"
   },
   "require-dev": {
     "ergebnis/composer-normalize": "^2.13"

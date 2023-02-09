@@ -55,13 +55,10 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'phpdoc_order' => true,
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
         'single_line_throw' => false,
-    ];
 
-    // Not available for PHP 7.2, see https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v2.5.0
-    // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
-    if (class_exists(DeclareAfterOpeningTagFixer::class)) {
-        $safeRules[DeclareAfterOpeningTagFixer::name()] = true;
-    }
+        // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
+        DeclareAfterOpeningTagFixer::name() => true,
+    ];
 
     return (new Config())
         ->registerCustomFixers(new Fixers())
