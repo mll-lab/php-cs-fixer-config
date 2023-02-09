@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace MLL\PhpCsFixerConfig;
 
@@ -17,7 +15,7 @@ use PhpCsFixerCustomFixers\Fixers;
 function config(Finder $finder, array $ruleOverrides = []): Config
 {
     return (new Config())
-        ->registerCustomFixers(new Fixers)
+        ->registerCustomFixers(new Fixers())
         ->setFinder($finder)
         ->setRules(array_merge([
             '@Symfony' => true,
