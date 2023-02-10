@@ -4,6 +4,7 @@ namespace MLL\PhpCsFixerConfig;
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
+use PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer;
 use PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer;
 use PhpCsFixerCustomFixers\Fixers;
 
@@ -56,8 +57,8 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
         'single_line_throw' => false,
 
-        // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
-        DeclareAfterOpeningTagFixer::name() => true,
+        ConstructorEmptyBracesFixer::name() => true,
+        DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
     ];
 
     return (new Config())
