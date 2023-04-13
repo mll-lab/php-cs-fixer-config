@@ -47,6 +47,11 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             'position' => 'beginning',
         ],
         'phpdoc_align' => false, // Messes with complex array shapes
+        'phpdoc_line_span' => [
+            'property' => 'single',
+            'const' => 'single',
+            'method' => 'single',
+        ],
         'phpdoc_no_alias_tag' => [
             'replacements' => [
                 'type' => 'var',
