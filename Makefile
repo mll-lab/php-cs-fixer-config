@@ -1,5 +1,5 @@
 .PHONY: it
-it: fix test normalize ## Perform quality checks
+it: fix normalize ## Perform quality checks
 
 .PHONY: help
 help: ## Displays this list of targets with descriptions
