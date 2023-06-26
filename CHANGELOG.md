@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.4.0
+
+### Added
+
+- Enable `single_line_empty_body` fixer
+
 ## v5.3.0
 
 ### Changed

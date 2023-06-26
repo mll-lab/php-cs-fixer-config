@@ -60,6 +60,7 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         ],
         'phpdoc_order' => true,
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
+        'single_line_empty_body' => true,
         'single_line_throw' => false,
         'yoda_style' => [ // Not necessary with static analysis, non-Yoda is more natural to write and read
             'equal' => false,
