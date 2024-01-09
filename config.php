@@ -34,6 +34,7 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             ],
         ],
         'explicit_string_variable' => true,
+        'fully_qualified_strict_types' => false, // Messes up global config files where fully qualified class names are preferred
         'heredoc_indentation' => false,
         'method_argument_space' => [
             'on_multiline' => 'ensure_fully_multiline',
