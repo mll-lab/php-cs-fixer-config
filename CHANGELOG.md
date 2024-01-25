@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.6.0
+
+### Added
+
+- Force `T?` over `T|null`
+
 ## v5.5.0
 
 ### Added
