@@ -44,6 +44,9 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'no_superfluous_phpdoc_tags' => true,
         'no_useless_else' => true,
         'not_operator_with_successor_space' => true,
+        'nullable_type_declaration' => [
+            'syntax' => 'question_mark',
+        ],
         'operator_linebreak' => [
             'position' => 'beginning',
         ],
