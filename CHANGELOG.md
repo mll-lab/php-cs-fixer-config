@@ -13,7 +13,7 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ### Added
 
-- Force `T?` over `T|null`
+- Force `?T` over `T|null`
 
 ## v5.5.0
 
