@@ -9,6 +9,10 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.7.0
+
+- Add `multiline_whitespace_before_semicolons` fixer
+
 ## v5.6.0
 
 ### Added

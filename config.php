@@ -39,6 +39,9 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'method_argument_space' => [
             'on_multiline' => 'ensure_fully_multiline',
         ],
+        'multiline_whitespace_before_semicolons' => [
+            'strategy' => 'no_multi_line',
+        ],
         'new_with_braces' => true,
         'no_superfluous_elseif' => true,
         'no_superfluous_phpdoc_tags' => true,
