@@ -95,7 +95,6 @@ function risky(Finder $finder, array $ruleOverrides = []): Config
 {
     $riskyRules = [
         'declare_strict_types' => true,
-
         // Technically not strict rules, but they go hand-in-hand with declare_strict_types
         // to achieve a first line of: "<?php declare(strict_types=1);" with no extra newlines
         // see https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4252
@@ -103,6 +102,7 @@ function risky(Finder $finder, array $ruleOverrides = []): Config
         'blank_line_after_opening_tag' => false,
 
         'logical_operators' => true,
+        'modernize_types_casting' => true,
     ];
 
     return config($finder, array_merge($riskyRules, $ruleOverrides))

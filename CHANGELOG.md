@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.9.0
+
+### Added
+
+- Add `modernize_types_casting` fixer
+
 ## v5.8.0
 
 ### Added
