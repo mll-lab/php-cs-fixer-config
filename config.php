@@ -69,7 +69,6 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
         'single_line_empty_body' => true,
         'single_line_throw' => false,
-        'use_arrow_functions' => true,
         'yoda_style' => [ // Not necessary with static analysis, non-Yoda is more natural to write and read
             'equal' => false,
             'identical' => false,
@@ -103,6 +102,7 @@ function risky(Finder $finder, array $ruleOverrides = []): Config
 
         'logical_operators' => true,
         'modernize_types_casting' => true,
+        'use_arrow_functions' => true,
     ];
 
     return config($finder, array_merge($riskyRules, $ruleOverrides))
