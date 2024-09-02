@@ -8,7 +8,9 @@ Shared configuration for php-cs-fixer
 
 ## Installation
 
-    composer require --dev mll-lab/php-cs-fixer-config
+```sh
+composer require --dev mll-lab/php-cs-fixer-config
+```
 
 ## Usage
 

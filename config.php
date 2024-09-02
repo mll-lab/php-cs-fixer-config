@@ -69,6 +69,14 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
         'single_line_empty_body' => true,
         'single_line_throw' => false,
+        // TODO add trailing commas everywhere when dropping PHP 7.4
+        'trailing_comma_in_multiline' => [
+            'after_heredoc' => true,
+            'elements' => [
+                'array_destructuring',
+                'arrays',
+            ],
+        ],
         'yoda_style' => [ // Not necessary with static analysis, non-Yoda is more natural to write and read
             'equal' => false,
             'identical' => false,
