@@ -88,8 +88,8 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         ],
 
         PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer::name() => true,
-        PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
+        PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
     ];
 
     return (new Config())
