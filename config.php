@@ -4,9 +4,7 @@ namespace MLL\PhpCsFixerConfig;
 
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
-use PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer;
-use PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer;
-use PhpCsFixerCustomFixers\Fixers;
+use PhpCsFixerCustomFixers;
 
 /**
  * Create a php-cs-fixer config that is enhanced with MLL rules.
@@ -19,6 +17,7 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         '@Symfony' => true,
 
         'array_indentation' => true,
+        'assign_null_coalescing_to_coalesce_equal' => true,
         'binary_operator_spaces' => [
             'default' => 'single_space',
             'operators' => [],
@@ -36,9 +35,11 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'explicit_string_variable' => true,
         'fully_qualified_strict_types' => false, // Messes up global config files where fully qualified class names are preferred
         'heredoc_indentation' => false,
+        'list_syntax' => true,
         'method_argument_space' => [
             'on_multiline' => 'ensure_fully_multiline',
         ],
+        'method_chaining_indentation' => true,
         'multiline_whitespace_before_semicolons' => [
             'strategy' => 'no_multi_line',
         ],
@@ -68,13 +69,16 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'phpdoc_order' => true,
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
         'single_line_empty_body' => true,
-        'single_line_throw' => false,
+        'single_line_throw' => true,
         // TODO add trailing commas everywhere when dropping PHP 7.4
         'trailing_comma_in_multiline' => [
             'after_heredoc' => true,
             'elements' => [
+                // 'arguments',
                 'array_destructuring',
                 'arrays',
+                // 'match',
+                // 'parameters',
             ],
         ],
         'yoda_style' => [ // Not necessary with static analysis, non-Yoda is more natural to write and read
@@ -83,12 +87,13 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             'less_and_greater' => false,
         ],
 
-        ConstructorEmptyBracesFixer::name() => true,
-        DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
+        PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer::name() => true,
+        PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
+        PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
     ];
 
     return (new Config())
-        ->registerCustomFixers(new Fixers())
+        ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
         ->setFinder($finder)
         ->setRules(array_merge($safeRules, $ruleOverrides));
 }

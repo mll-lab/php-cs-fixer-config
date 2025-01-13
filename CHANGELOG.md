@@ -9,6 +9,16 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.10.0
+
+### Added
+
+- Enable `assign_null_coalescing_to_coalesce_equal` fixer
+- Enable `list_syntax` fixer
+- Enable `method_chaining_indentation` fixer
+- Enable `single_line_throw` fixer
+- Enable `MultilinePromotedPropertiesFixer` fixer
+
 ## v5.9.2
 
 ### Fixed
