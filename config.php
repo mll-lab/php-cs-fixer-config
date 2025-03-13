@@ -116,6 +116,13 @@ function risky(Finder $finder, array $ruleOverrides = []): Config
         'logical_operators' => true,
         'modernize_types_casting' => true,
         'use_arrow_functions' => true,
+
+        // We invert the usual behavior of this rule by including no functions,
+        // which in turn causes the "strict" option to remove backslashes everywhere.
+        'native_function_invocation' => [
+            'include' => [],
+            'strict' => true,
+        ],
     ];
 
     return config($finder, array_merge($riskyRules, $ruleOverrides))
