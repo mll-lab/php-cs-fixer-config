@@ -16,9 +16,7 @@ final class PhpdocSimplifyArrayKeyFixerTest extends TestCase
         $this->fixer = new PhpdocSimplifyArrayKeyFixer();
     }
 
-    /**
-     * @dataProvider provideFixCases
-     */
+    /** @dataProvider provideFixCases */
     public function testFix(string $expected, ?string $input = null): void
     {
         $input ??= $expected;
