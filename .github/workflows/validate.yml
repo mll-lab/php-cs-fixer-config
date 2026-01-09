@@ -40,6 +40,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
 
-      - run: composer update --no-interaction --no-progress --prefer-${{ matrix.dependencies }}
+      - run: composer update --no-interaction --no-progress ${{ matrix.dependencies == 'lowest' && '--prefer-lowest' || '' }}
 
       - run: vendor/bin/phpunit

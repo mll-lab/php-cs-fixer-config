@@ -4,19 +4,21 @@ namespace MLL\PhpCsFixerConfig\Tests\Fixer;
 
 use MLL\PhpCsFixerConfig\Fixer\PhpdocSimplifyArrayKeyFixer;
 use PhpCsFixer\Tokenizer\Tokens;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class PhpdocSimplifyArrayKeyFixerTest extends TestCase
 {
-    private PhpdocSimplifyArrayKeyFixer $fixer;
+    /** @var PhpdocSimplifyArrayKeyFixer */
+    private $fixer;
 
     protected function setUp(): void
     {
         $this->fixer = new PhpdocSimplifyArrayKeyFixer();
     }
 
-    #[DataProvider('provideFixCases')]
+    /**
+     * @dataProvider provideFixCases
+     */
     public function testFix(string $expected, ?string $input = null): void
     {
         $input ??= $expected;

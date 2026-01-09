@@ -5,12 +5,6 @@
     bootstrap="vendor/autoload.php"
     colors="true"
 >
-    <source>
-        <include>
-            <directory>src</directory>
-        </include>
-    </source>
-
     <testsuites>
         <testsuite name="Tests">
             <directory>tests</directory>
