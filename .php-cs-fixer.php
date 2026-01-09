@@ -1,13 +1,10 @@
 <?php declare(strict_types=1);
 
-use PhpCsFixer\Finder;
-use function MLL\PhpCsFixerConfig\risky;
-
-$finder = Finder::create()
+$finder = PhpCsFixer\Finder::create()
     ->notPath('vendor')
     ->in(__DIR__)
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return risky($finder);
+return MLL\PhpCsFixerConfig\risky($finder);

@@ -1,5 +1,5 @@
 .PHONY: it
-it: fix normalize ## Perform quality checks
+it: fix normalize test ## Perform quality checks
 
 .PHONY: help
 help: ## Displays this list of targets with descriptions
@@ -15,6 +15,11 @@ fix: ## Format PHP
 .PHONY: normalize
 normalize: ## Normalize composer.json
 	composer normalize
+
+.PHONY: test
+test: ## Run PHPUnit tests
+	mkdir --parent .build/phpunit
+	vendor/bin/phpunit --cache-directory=.build/phpunit
 
 vendor: composer.json ## Install dependencies through composer
 	composer install

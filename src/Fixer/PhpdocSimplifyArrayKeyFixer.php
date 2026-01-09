@@ -10,21 +10,15 @@ use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Tokens;
 
 /**
- * Simplifies array<array-key, T> to array<T>.
- *
- * Since array-key is equivalent to int|string and arrays naturally have int|string keys,
- * specifying this explicitly is redundant.
+ * Simplifies PHPDoc definitions to array<T>, omitting explicit array-key defaults.
  */
 final class PhpdocSimplifyArrayKeyFixer extends AbstractPhpdocTypesFixer
 {
+    public const NAME = 'MLL/phpdoc_simplify_array_key';
+
     public function getName(): string
     {
-        return 'MLL/phpdoc_simplify_array_key';
-    }
-
-    public static function name(): string
-    {
-        return (new self())->getName();
+        return self::NAME;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -37,6 +31,7 @@ final class PhpdocSimplifyArrayKeyFixer extends AbstractPhpdocTypesFixer
                         <?php
                         /**
                          * @param array<array-key, string> $x
+                         * @param array<string|int, Foo> $y
                          * @return array<int|string, Foo>
                          */
 
@@ -54,8 +49,12 @@ final class PhpdocSimplifyArrayKeyFixer extends AbstractPhpdocTypesFixer
     protected function normalize(string $type): string
     {
         // Match: array<array-key, T> or array<int|string, T> or array<string|int, T>
+        // Uses [^\S\n]* (whitespace except newlines) to avoid matching multiline types,
+        // which are not supported due to AbstractPhpdocTypesFixer requiring line count preservation.
+        $ws = '[^\S\n]*'; // Whitespace except newlines
+
         return Preg::replace(
-            '/\barray<\s*(?:array-key|int\s*\|\s*string|string\s*\|\s*int)\s*,\s*/',
+            "/\\barray<{$ws}(?:array-key|int{$ws}\\|{$ws}string|string{$ws}\\|{$ws}int){$ws},{$ws}/",
             'array<',
             $type
         );

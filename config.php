@@ -2,7 +2,6 @@
 
 namespace MLL\PhpCsFixerConfig;
 
-use MLL\PhpCsFixerConfig\Fixer\PhpdocSimplifyArrayKeyFixer;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixerCustomFixers;
@@ -69,7 +68,6 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         ],
         'phpdoc_order' => true,
         'phpdoc_to_comment' => false, // Intermediary PHPDocs are sometimes useful to provide type assertions for PHPStan
-        PhpdocSimplifyArrayKeyFixer::name() => true,
         'single_line_empty_body' => true,
         'single_line_throw' => true,
         // TODO add trailing commas everywhere when dropping PHP 7.4
@@ -89,6 +87,8 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             'less_and_greater' => false,
         ],
 
+        Fixer\PhpdocSimplifyArrayKeyFixer::NAME => true,
+
         PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
         PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
@@ -96,7 +96,9 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 
     return (new Config())
         ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
-        ->registerCustomFixers([new PhpdocSimplifyArrayKeyFixer()])
+        ->registerCustomFixers([
+            new Fixer\PhpdocSimplifyArrayKeyFixer(),
+        ])
         ->setFinder($finder)
         ->setRules(array_merge($safeRules, $ruleOverrides));
 }
