@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.12.0
+
+### Added
+
+- Add `PhpdocSimplifyArrayKeyFixer` https://github.com/mll-lab/php-cs-fixer-config/pull/13
+
 ## v5.11.0
 
 ### Added
