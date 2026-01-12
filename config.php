@@ -87,6 +87,8 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             'less_and_greater' => false,
         ],
 
+        Fixer\PhpdocSimplifyArrayKeyFixer::NAME => true,
+
         PhpCsFixerCustomFixers\Fixer\ConstructorEmptyBracesFixer::name() => true,
         PhpCsFixerCustomFixers\Fixer\DeclareAfterOpeningTagFixer::name() => true, // Use native rule when added with https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/2062
         PhpCsFixerCustomFixers\Fixer\MultilinePromotedPropertiesFixer::name() => true,
@@ -94,6 +96,9 @@ function config(Finder $finder, array $ruleOverrides = []): Config
 
     return (new Config())
         ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
+        ->registerCustomFixers([
+            new Fixer\PhpdocSimplifyArrayKeyFixer(),
+        ])
         ->setFinder($finder)
         ->setRules(array_merge($safeRules, $ruleOverrides));
 }
