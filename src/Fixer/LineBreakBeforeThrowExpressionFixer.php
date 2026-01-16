@@ -122,7 +122,8 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
     private function hasNewlineBetween(Tokens $tokens, int $startIndex, int $endIndex): bool
     {
         for ($i = $startIndex + 1; $i < $endIndex; ++$i) {
-            if ($tokens[$i]->isWhitespace() && str_contains($tokens[$i]->getContent(), "\n")) {
+            $token = $tokens[$i];
+            if ($token->isWhitespace() && str_contains($token->getContent(), "\n")) {
                 return true;
             }
         }
