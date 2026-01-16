@@ -26,7 +26,6 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
 
         self::assertSame($expected, $actual);
 
-        // Test idempotency
         $tokens = Tokens::fromCode($expected);
         $this->fixer->fix(new \SplFileInfo(__FILE__), $tokens);
         self::assertSame($expected, $tokens->generateCode());
@@ -36,142 +35,164 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
     public static function provideFixCases(): iterable
     {
         yield 'null coalesce throw on single line' => [
-            '<?php
-$result = $this->fetchNullable()
-    ?? throw new \RuntimeException(\'message\');
-',
-            '<?php
-$result = $this->fetchNullable() ?? throw new \RuntimeException(\'message\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable() ?? throw new \RuntimeException('message');
+                PHP,
         ];
 
         yield 'elvis throw on single line' => [
-            '<?php
-$result = $this->fetchFalsy()
-    ?: throw new \RuntimeException(\'message\');
-',
-            '<?php
-$result = $this->fetchFalsy() ?: throw new \RuntimeException(\'message\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                    ?: throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy() ?: throw new \RuntimeException('message');
+                PHP,
         ];
 
         yield 'already multiline null coalesce throw - no change' => [
-            '<?php
-$result = $this->fetchNullable()
-    ?? throw new \RuntimeException(\'message\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                    ?? throw new \RuntimeException('message');
+                PHP,
         ];
 
         yield 'already multiline elvis throw - no change' => [
-            '<?php
-$result = $this->fetchFalsy()
-    ?: throw new \RuntimeException(\'message\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                    ?: throw new \RuntimeException('message');
+                PHP,
         ];
 
         yield 'regular null coalesce without throw - no change' => [
-            '<?php
-$result = $this->fetchNullable() ?? \'default\';
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable() ?? 'default';
+                PHP,
         ];
 
         yield 'regular elvis without throw - no change' => [
-            '<?php
-$result = $this->fetchFalsy() ?: \'default\';
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy() ?: 'default';
+                PHP,
         ];
 
         yield 'exception with arguments' => [
-            '<?php
-$user = $this->findUser($id)
-    ?? throw new \InvalidArgumentException(sprintf(\'User %d not found\', $id));
-',
-            '<?php
-$user = $this->findUser($id) ?? throw new \InvalidArgumentException(sprintf(\'User %d not found\', $id));
-',
+            <<<'PHP'
+                <?php
+                $user = $this->findUser($id)
+                    ?? throw new \InvalidArgumentException("User {$id} not found");
+                PHP,
+            <<<'PHP'
+                <?php
+                $user = $this->findUser($id) ?? throw new \InvalidArgumentException("User {$id} not found");
+                PHP,
         ];
 
         yield 'method chain' => [
-            '<?php
-$result = $this->getRepository()->find($id)
-    ?? throw new \RuntimeException(\'Not found\');
-',
-            '<?php
-$result = $this->getRepository()->find($id) ?? throw new \RuntimeException(\'Not found\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->getRepository()->find($id)
+                    ?? throw new \RuntimeException('Not found');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->getRepository()->find($id) ?? throw new \RuntimeException('Not found');
+                PHP,
         ];
 
         yield 'return statement with null coalesce throw' => [
-            '<?php
-return $this->cache->get($key)
-    ?? throw new \RuntimeException(\'Cache miss\');
-',
-            '<?php
-return $this->cache->get($key) ?? throw new \RuntimeException(\'Cache miss\');
-',
+            <<<'PHP'
+                <?php
+                return $this->cache->get($key)
+                    ?? throw new \RuntimeException('Cache miss');
+                PHP,
+            <<<'PHP'
+                <?php
+                return $this->cache->get($key) ?? throw new \RuntimeException('Cache miss');
+                PHP,
         ];
 
         yield 'nested in method' => [
-            '<?php
-class Foo
-{
-    public function bar(): string
-    {
-        $result = $this->fetchNullable()
-            ?? throw new \RuntimeException(\'message\');
+            <<<'PHP'
+                <?php
+                class Foo
+                {
+                    public function bar(): string
+                    {
+                        $result = $this->fetchNullable()
+                            ?? throw new \RuntimeException('message');
 
-        return $result;
-    }
-}
-',
-            '<?php
-class Foo
-{
-    public function bar(): string
-    {
-        $result = $this->fetchNullable() ?? throw new \RuntimeException(\'message\');
+                        return $result;
+                    }
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                class Foo
+                {
+                    public function bar(): string
+                    {
+                        $result = $this->fetchNullable() ?? throw new \RuntimeException('message');
 
-        return $result;
-    }
-}
-',
+                        return $result;
+                    }
+                }
+                PHP,
         ];
 
         yield 'multiple statements' => [
-            '<?php
-$a = $foo
-    ?? throw new \RuntimeException(\'a\');
-$b = $bar
-    ?: throw new \RuntimeException(\'b\');
-',
-            '<?php
-$a = $foo ?? throw new \RuntimeException(\'a\');
-$b = $bar ?: throw new \RuntimeException(\'b\');
-',
+            <<<'PHP'
+                <?php
+                $a = $foo
+                    ?? throw new \RuntimeException('a');
+                $b = $bar
+                    ?: throw new \RuntimeException('b');
+                PHP,
+            <<<'PHP'
+                <?php
+                $a = $foo ?? throw new \RuntimeException('a');
+                $b = $bar ?: throw new \RuntimeException('b');
+                PHP,
         ];
 
         yield 'regular throw statement - no change' => [
-            '<?php
-if ($condition) {
-    throw new \RuntimeException(\'message\');
-}
-',
+            <<<'PHP'
+                <?php
+                if ($condition) {
+                    throw new \RuntimeException('message');
+                }
+                PHP,
         ];
 
         yield 'ternary operator - no change' => [
-            '<?php
-$result = $condition ? $a : $b;
-',
+            <<<'PHP'
+                <?php
+                $result = $condition ? $a : $b;
+                PHP,
         ];
 
         yield 'no whitespace before operator' => [
-            '<?php
-$result = $this->fetchNullable()
-    ?? throw new \RuntimeException(\'message\');
-',
-            '<?php
-$result = $this->fetchNullable()?? throw new \RuntimeException(\'message\');
-',
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()?? throw new \RuntimeException('message');
+                PHP,
         ];
     }
 }
