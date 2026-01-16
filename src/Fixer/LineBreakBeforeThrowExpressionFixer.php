@@ -3,11 +3,11 @@
 namespace MLL\PhpCsFixerConfig\Fixer;
 
 use PhpCsFixer\AbstractFixer;
-use PhpCsFixer\Fixer\IndentationTrait;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -16,8 +16,6 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements WhitespacesAwareFixerInterface
 {
-    use IndentationTrait;
-
     public const NAME = 'MLL/line_break_before_throw_expression';
 
     public function getName(): string
@@ -107,7 +105,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             return;
         }
 
-        $indentation = $this->getLineIndentation($tokens, $operatorIndex);
+        $indentation = $this->getIndentAt($tokens, $operatorIndex) ?? '';
         $indent = $this->whitespacesConfig->getIndent();
         $newWhitespace = $this->whitespacesConfig->getLineEnding() . $indentation . $indent;
 
@@ -123,11 +121,26 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
     {
         for ($i = $startIndex + 1; $i < $endIndex; ++$i) {
             $token = $tokens[$i];
-            if ($token->isWhitespace() && str_contains($token->getContent(), "\n")) {
+            if ($token->isWhitespace() && strpos($token->getContent(), "\n") !== false) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    // TODO: Replace with IndentationTrait once we require php-cs-fixer ^3.87.0
+    private function getIndentAt(Tokens $tokens, int $index): string
+    {
+        for ($i = $index - 1; $i >= 0; --$i) {
+            $token = $tokens[$i];
+            $content = $token->getContent();
+
+            if (Preg::match('/\R(\h*)$/', $content, $matches)) {
+                return $matches[1];
+            }
+        }
+
+        return '';
     }
 }
