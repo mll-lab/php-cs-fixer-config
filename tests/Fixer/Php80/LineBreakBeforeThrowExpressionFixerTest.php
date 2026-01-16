@@ -167,6 +167,22 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
                 PHP,
         ];
 
+        yield 'after multiline statement' => [
+            <<<'PHP'
+                <?php
+                $a = $foo->bar()
+                    ->baz()
+                    ->qux()
+                    ?? throw new \RuntimeException('a');
+                PHP,
+            <<<'PHP'
+                <?php
+                $a = $foo->bar()
+                    ->baz()
+                    ->qux() ?? throw new \RuntimeException('a');
+                PHP,
+        ];
+
         yield 'regular throw statement - no change' => [
             <<<'PHP'
                 <?php
@@ -179,7 +195,27 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
         yield 'ternary operator - no change' => [
             <<<'PHP'
                 <?php
-                $result = $condition ? $a : $b;
+                $result = $condition ? throw new \RuntimeException('a') : throw new \RuntimeException('b');
+                PHP,
+        ];
+
+        yield 'inline with brace - no change' => [
+            <<<'PHP'
+                <?php
+                $foo = Foo::find(
+                    1,
+                    'asdf',
+                ) ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'inline with curly brace - no change' => [
+            <<<'PHP'
+                <?php
+                $foo = match ($value) {
+                    1 => 'foo',
+                    default => 'asdf',
+                } ?? throw new \RuntimeException('message');
                 PHP,
         ];
 

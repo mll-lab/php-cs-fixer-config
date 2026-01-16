@@ -105,9 +105,33 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             return;
         }
 
-        $indentation = $this->getIndentAt($tokens, $operatorIndex) ?? '';
-        $indent = $this->whitespacesConfig->getIndent();
-        $newWhitespace = $this->whitespacesConfig->getLineEnding() . $indentation . $indent;
+        // If the preceding expression is a multi-line block, don't add another line break
+        if ($tokens[$prevMeaningfulIndex]->equals(')')) {
+            $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $prevMeaningfulIndex);
+            if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
+                return;
+            }
+        }
+
+        if ($tokens[$prevMeaningfulIndex]->equals('}')) {
+            $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_CURLY_BRACE, $prevMeaningfulIndex);
+            if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
+                return;
+            }
+        }
+
+        $statementStart = $this->findStatementStart($tokens, $operatorIndex);
+        $expressionAlreadyMultiline = $this->hasNewlineBetween($tokens, $statementStart, $operatorIndex);
+
+        if ($expressionAlreadyMultiline) {
+            // Use the existing indentation level from the multiline expression
+            $indentation = $this->getIndentAt($tokens, $operatorIndex);
+        } else {
+            // Add one indent level from the statement start
+            $indentation = $this->getIndentAt($tokens, $statementStart) . $this->whitespacesConfig->getIndent();
+        }
+
+        $newWhitespace = $this->whitespacesConfig->getLineEnding() . $indentation;
 
         $whitespaceIndex = $operatorIndex - 1;
         if ($tokens[$whitespaceIndex]->isWhitespace()) {
@@ -142,5 +166,18 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         }
 
         return '';
+    }
+
+    private function findStatementStart(Tokens $tokens, int $index): int
+    {
+        for ($i = $index - 1; $i >= 0; --$i) {
+            $token = $tokens[$i];
+
+            if ($token->equals(';') || $token->equals('{') || $token->equals('}') || $token->isGivenKind(T_OPEN_TAG)) {
+                return $tokens->getNextMeaningfulToken($i) ?? $index;
+            }
+        }
+
+        return 0;
     }
 }
