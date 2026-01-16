@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace MLL\PhpCsFixerConfig\Tests\Fixer;
+namespace MLL\PhpCsFixerConfig\Tests\Fixer\Php80;
 
 use MLL\PhpCsFixerConfig\Fixer\LineBreakBeforeThrowExpressionFixer;
 use PhpCsFixer\Tokenizer\Tokens;
