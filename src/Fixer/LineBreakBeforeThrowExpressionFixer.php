@@ -101,19 +101,21 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             return;
         }
 
-        if ($this->hasNewlineBetween($tokens, $prevMeaningfulIndex, $operatorIndex)) {
-            return;
-        }
+        $hasNewlineBeforeOperator = $this->hasNewlineBetween($tokens, $prevMeaningfulIndex, $operatorIndex);
 
         // If the preceding expression is a multi-line block, don't add another line break
-        if ($tokens[$prevMeaningfulIndex]->equals(')')) {
+        if (! $hasNewlineBeforeOperator
+            && $tokens[$prevMeaningfulIndex]->equals(')')
+        ) {
             $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $prevMeaningfulIndex);
             if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
                 return;
             }
         }
 
-        if ($tokens[$prevMeaningfulIndex]->equals('}')) {
+        if (! $hasNewlineBeforeOperator
+            && $tokens[$prevMeaningfulIndex]->equals('}')
+        ) {
             $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_CURLY_BRACE, $prevMeaningfulIndex);
             if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
                 return;
@@ -121,7 +123,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         }
 
         $statementStart = $this->findStatementStart($tokens, $operatorIndex);
-        $expressionAlreadyMultiline = $this->hasNewlineBetween($tokens, $statementStart, $operatorIndex);
+        $expressionAlreadyMultiline = $this->hasNewlineBetween($tokens, $statementStart, $prevMeaningfulIndex);
 
         if ($expressionAlreadyMultiline) {
             // Use the existing indentation level from the multiline expression
@@ -135,6 +137,10 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
 
         $whitespaceIndex = $operatorIndex - 1;
         if ($tokens[$whitespaceIndex]->isWhitespace()) {
+            if ($tokens[$whitespaceIndex]->getContent() === $newWhitespace) {
+                return;
+            }
+
             $tokens[$whitespaceIndex] = new Token([T_WHITESPACE, $newWhitespace]);
         } else {
             $tokens->insertAt($operatorIndex, new Token([T_WHITESPACE, $newWhitespace]));

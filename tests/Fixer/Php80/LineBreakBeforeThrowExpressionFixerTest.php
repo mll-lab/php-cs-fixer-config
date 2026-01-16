@@ -58,6 +58,58 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
                 PHP,
         ];
 
+        yield 'null coalesce throw with missing indent' => [
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'elvis throw with missing indent' => [
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                    ?: throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                ?: throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'null coalesce throw with extra indent' => [
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchNullable()
+                        ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'elvis throw with extra indent' => [
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                    ?: throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->fetchFalsy()
+                        ?: throw new \RuntimeException('message');
+                PHP,
+        ];
+
         yield 'already multiline null coalesce throw - no change' => [
             <<<'PHP'
                 <?php
@@ -216,6 +268,17 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
                     1 => 'foo',
                     default => 'asdf',
                 } ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'nested throw expression - no change' => [
+            <<<'PHP'
+                <?php
+                return $defaultIsolation?->setting->toMPSetting()
+                    ?? throw new DefaultMPSettingMissingException(
+                        $this->pnl454_name
+                            ?? throw new \Exception("pnl454_name missing for Ngs454Panel {$this->id}."),
+                    );
                 PHP,
         ];
 
