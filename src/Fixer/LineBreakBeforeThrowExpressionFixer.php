@@ -102,16 +102,12 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             return;
         }
 
-        $hasNewlineBeforeOperator = $this->hasNewlineBetween($tokens, $prevMeaningfulIndex, $operatorIndex);
-
         // If the preceding expression is a multi-line block, don't add another line break
-        if (! $hasNewlineBeforeOperator) {
-            $blockType = $this->getBlockType($tokens[$prevMeaningfulIndex]);
-            if ($blockType !== null) {
-                $openIndex = $tokens->findBlockStart($blockType, $prevMeaningfulIndex);
-                if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
-                    return;
-                }
+        $blockType = $this->getBlockType($tokens[$prevMeaningfulIndex]);
+        if ($blockType !== null) {
+            $openIndex = $tokens->findBlockStart($blockType, $prevMeaningfulIndex);
+            if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
+                return;
             }
         }
 
@@ -135,63 +131,9 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             }
 
             $tokens[$whitespaceIndex] = new Token([T_WHITESPACE, $newWhitespace]);
-
-            // Adjust following lines only when we're adding a new line break
-            if (! $hasNewlineBeforeOperator) {
-                $this->adjustFollowingIndentation($tokens, $operatorIndex);
-            }
         } else {
             $tokens->insertAt($operatorIndex, new Token([T_WHITESPACE, $newWhitespace]));
-            $this->adjustFollowingIndentation($tokens, $operatorIndex + 1);
         }
-    }
-
-    /** Adjust indentation for lines following the operator when a line break is inserted. */
-    private function adjustFollowingIndentation(Tokens $tokens, int $operatorIndex): void
-    {
-        $indent = $this->whitespacesConfig->getIndent();
-        $statementEnd = $this->findStatementEnd($tokens, $operatorIndex);
-
-        for ($i = $operatorIndex + 1; $i < $statementEnd; ++$i) {
-            $token = $tokens[$i];
-            if (! $token->isWhitespace()) {
-                continue;
-            }
-
-            $content = $token->getContent();
-            if (! str_contains($content, "\n")) {
-                continue;
-            }
-
-            // Add one indent level after each newline
-            $newContent = Preg::replace('/(\R)(\h*)/', '$1' . $indent . '$2', $content);
-            if ($newContent !== $content) {
-                $tokens[$i] = new Token([T_WHITESPACE, $newContent]);
-            }
-        }
-    }
-
-    /** Find the end of the current statement (semicolon or closing match arm). */
-    private function findStatementEnd(Tokens $tokens, int $index): int
-    {
-        $nestingLevel = 0;
-
-        for ($i = $index; $i < $tokens->count(); ++$i) {
-            $token = $tokens[$i];
-
-            if ($token->equalsAny(['(', '[', '{'])) {
-                ++$nestingLevel;
-            } elseif ($token->equalsAny([')', ']', '}'])) {
-                if ($nestingLevel === 0) {
-                    return $i;
-                }
-                --$nestingLevel;
-            } elseif ($nestingLevel === 0 && $token->equalsAny([';', ','])) {
-                return $i;
-            }
-        }
-
-        return $tokens->count();
     }
 
     private function hasNewlineBetween(Tokens $tokens, int $startIndex, int $endIndex): bool
@@ -256,10 +198,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             } elseif ($token->equals('{')) {
                 return $tokens->getNextMeaningfulToken($i) ?? $index;
             } elseif ($nestingLevel === 0) {
-                if ($token->equals(';') || $token->isGivenKind([T_OPEN_TAG, T_DOUBLE_ARROW])) {
-                    return $tokens->getNextMeaningfulToken($i) ?? $index;
-                }
-                if ($token->equals(',')) {
+                if ($token->equalsAny([';', ',']) || $token->isGivenKind([T_OPEN_TAG, T_DOUBLE_ARROW])) {
                     return $tokens->getNextMeaningfulToken($i) ?? $index;
                 }
             }

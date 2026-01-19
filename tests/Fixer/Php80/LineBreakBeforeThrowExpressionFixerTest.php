@@ -439,24 +439,6 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
                 PHP,
         ];
 
-        yield 'multiline exception constructor - adds line break' => [
-            <<<'PHP'
-                <?php
-                $result = $value
-                    ?? throw new \RuntimeException(
-                        'A very long error message that spans multiple lines',
-                        500,
-                    );
-                PHP,
-            <<<'PHP'
-                <?php
-                $result = $value ?? throw new \RuntimeException(
-                    'A very long error message that spans multiple lines',
-                    500,
-                );
-                PHP,
-        ];
-
         yield 'comment between value and operator - preserves comment' => [
             <<<'PHP'
                 <?php
