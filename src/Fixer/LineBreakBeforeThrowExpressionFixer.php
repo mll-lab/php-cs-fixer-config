@@ -105,21 +105,13 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         $hasNewlineBeforeOperator = $this->hasNewlineBetween($tokens, $prevMeaningfulIndex, $operatorIndex);
 
         // If the preceding expression is a multi-line block, don't add another line break
-        if (! $hasNewlineBeforeOperator
-            && $tokens[$prevMeaningfulIndex]->equals(')')
-        ) {
-            $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $prevMeaningfulIndex);
-            if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
-                return;
-            }
-        }
-
-        if (! $hasNewlineBeforeOperator
-            && $tokens[$prevMeaningfulIndex]->equals('}')
-        ) {
-            $openIndex = $tokens->findBlockStart(Tokens::BLOCK_TYPE_CURLY_BRACE, $prevMeaningfulIndex);
-            if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
-                return;
+        if (! $hasNewlineBeforeOperator) {
+            $blockType = $this->getBlockType($tokens[$prevMeaningfulIndex]);
+            if ($blockType !== null) {
+                $openIndex = $tokens->findBlockStart($blockType, $prevMeaningfulIndex);
+                if ($this->hasNewlineBetween($tokens, $openIndex, $prevMeaningfulIndex)) {
+                    return;
+                }
             }
         }
 
@@ -154,9 +146,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         }
     }
 
-    /**
-     * Adjust indentation for lines following the operator when a line break is inserted.
-     */
+    /** Adjust indentation for lines following the operator when a line break is inserted. */
     private function adjustFollowingIndentation(Tokens $tokens, int $operatorIndex): void
     {
         $indent = $this->whitespacesConfig->getIndent();
@@ -169,7 +159,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             }
 
             $content = $token->getContent();
-            if (strpos($content, "\n") === false) {
+            if (! str_contains($content, "\n")) {
                 continue;
             }
 
@@ -181,9 +171,7 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         }
     }
 
-    /**
-     * Find the end of the current statement (semicolon or closing match arm).
-     */
+    /** Find the end of the current statement (semicolon or closing match arm). */
     private function findStatementEnd(Tokens $tokens, int $index): int
     {
         $nestingLevel = 0;
@@ -191,15 +179,14 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
         for ($i = $index; $i < $tokens->count(); ++$i) {
             $token = $tokens[$i];
 
-            if ($token->equals('(') || $token->equals('[') || $token->equals('{')) {
+            if ($token->equalsAny(['(', '[', '{'])) {
                 ++$nestingLevel;
-            } elseif ($token->equals(')') || $token->equals(']') || $token->equals('}')) {
+            } elseif ($token->equalsAny([')', ']', '}'])) {
                 if ($nestingLevel === 0) {
-                    // We've reached the end of a block without finding a semicolon
                     return $i;
                 }
                 --$nestingLevel;
-            } elseif ($nestingLevel === 0 && ($token->equals(';') || $token->equals(','))) {
+            } elseif ($nestingLevel === 0 && $token->equalsAny([';', ','])) {
                 return $i;
             }
         }
@@ -211,12 +198,26 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
     {
         for ($i = $startIndex + 1; $i < $endIndex; ++$i) {
             $token = $tokens[$i];
-            if ($token->isWhitespace() && strpos($token->getContent(), "\n") !== false) {
+            if ($token->isWhitespace() && str_contains($token->getContent(), "\n")) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /** Get the block type for closing braces, or null if not a closing brace. */
+    private function getBlockType(Token $token): ?int
+    {
+        if ($token->equals(')')) {
+            return Tokens::BLOCK_TYPE_PARENTHESIS_BRACE;
+        }
+
+        if ($token->equals('}')) {
+            return Tokens::BLOCK_TYPE_CURLY_BRACE;
+        }
+
+        return null;
     }
 
     // TODO: Replace with IndentationTrait once we require php-cs-fixer ^3.87.0
@@ -242,28 +243,23 @@ final class LineBreakBeforeThrowExpressionFixer extends AbstractFixer implements
             $token = $tokens[$i];
 
             // Track nesting to ignore commas/arrows inside parentheses, brackets, or braces
-            // Note: CT::T_ARRAY_SQUARE_BRACE_* are custom tokens for array literal brackets
-            if ($token->equals(')') || $token->equals(']')
-                || $token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
+            // CT::T_ARRAY_SQUARE_BRACE_* are custom tokens for array literal brackets
+            if ($token->equalsAny([')', ']']) || $token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_CLOSE)) {
                 ++$nestingLevel;
-            } elseif ($token->equals('(') || $token->equals('[')
-                || $token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
+            } elseif ($token->equalsAny(['(', '[']) || $token->isGivenKind(CT::T_ARRAY_SQUARE_BRACE_OPEN)) {
                 --$nestingLevel;
             } elseif ($token->equals('}')) {
-                // Closing brace at top level is a statement boundary
                 if ($nestingLevel === 0) {
                     return $tokens->getNextMeaningfulToken($i) ?? $index;
                 }
                 ++$nestingLevel;
             } elseif ($token->equals('{')) {
-                // Opening brace at any level is a statement boundary
                 return $tokens->getNextMeaningfulToken($i) ?? $index;
             } elseif ($nestingLevel === 0) {
-                if ($token->equals(';') || $token->isGivenKind(T_OPEN_TAG)) {
+                if ($token->equals(';') || $token->isGivenKind([T_OPEN_TAG, T_DOUBLE_ARROW])) {
                     return $tokens->getNextMeaningfulToken($i) ?? $index;
                 }
-                // Comma and double arrow are statement boundaries only at top level (for match arms)
-                if ($token->equals(',') || $token->isGivenKind(T_DOUBLE_ARROW)) {
+                if ($token->equals(',')) {
                     return $tokens->getNextMeaningfulToken($i) ?? $index;
                 }
             }
