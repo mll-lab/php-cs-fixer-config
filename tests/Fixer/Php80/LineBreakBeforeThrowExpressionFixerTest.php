@@ -293,5 +293,236 @@ final class LineBreakBeforeThrowExpressionFixerTest extends TestCase
                 $result = $this->fetchNullable()?? throw new \RuntimeException('message');
                 PHP,
         ];
+
+        yield 'array access' => [
+            <<<'PHP'
+                <?php
+                $result = $data['key']
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $data['key'] ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'static method exception factory' => [
+            <<<'PHP'
+                <?php
+                $user = $this->find($id)
+                    ?? throw UserNotFoundException::forId($id);
+                PHP,
+            <<<'PHP'
+                <?php
+                $user = $this->find($id) ?? throw UserNotFoundException::forId($id);
+                PHP,
+        ];
+
+        yield 'chained null coalesce - only last gets line break' => [
+            <<<'PHP'
+                <?php
+                $result = $a ?? $b ?? $c
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $a ?? $b ?? $c ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'nullsafe operator chain' => [
+            <<<'PHP'
+                <?php
+                $result = $this->getUser()?->getProfile()?->getName()
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $this->getUser()?->getProfile()?->getName() ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'throw existing exception variable' => [
+            <<<'PHP'
+                <?php
+                $result = $value
+                    ?? throw $fallbackException;
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $value ?? throw $fallbackException;
+                PHP,
+        ];
+
+        yield 'named arguments in exception constructor' => [
+            <<<'PHP'
+                <?php
+                $result = $value
+                    ?? throw new \RuntimeException(message: 'error', code: 500);
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $value ?? throw new \RuntimeException(message: 'error', code: 500);
+                PHP,
+        ];
+
+        yield 'inline with square bracket - adds line break' => [
+            <<<'PHP'
+                <?php
+                $foo = [
+                    'a',
+                    'b',
+                ][$index]
+                ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $foo = [
+                    'a',
+                    'b',
+                ][$index] ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'inside match arm' => [
+            <<<'PHP'
+                <?php
+                $result = match ($type) {
+                    'user' => $this->findUser($id)
+                        ?? throw new \RuntimeException('User not found'),
+                    'order' => $this->findOrder($id)
+                        ?? throw new \RuntimeException('Order not found'),
+                };
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = match ($type) {
+                    'user' => $this->findUser($id) ?? throw new \RuntimeException('User not found'),
+                    'order' => $this->findOrder($id) ?? throw new \RuntimeException('Order not found'),
+                };
+                PHP,
+        ];
+
+        yield 'arrow function with throw expression' => [
+            <<<'PHP'
+                <?php
+                $fn = fn($x) => $x
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $fn = fn($x) => $x ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'static property access' => [
+            <<<'PHP'
+                <?php
+                $result = self::$instance
+                    ?? throw new \RuntimeException('Not initialized');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = self::$instance ?? throw new \RuntimeException('Not initialized');
+                PHP,
+        ];
+
+        yield 'spread operator in exception constructor' => [
+            <<<'PHP'
+                <?php
+                $result = $value
+                    ?? throw new \RuntimeException(...$args);
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $value ?? throw new \RuntimeException(...$args);
+                PHP,
+        ];
+
+        yield 'multiline exception constructor - adds line break' => [
+            <<<'PHP'
+                <?php
+                $result = $value
+                    ?? throw new \RuntimeException(
+                        'A very long error message that spans multiple lines',
+                        500,
+                    );
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $value ?? throw new \RuntimeException(
+                    'A very long error message that spans multiple lines',
+                    500,
+                );
+                PHP,
+        ];
+
+        yield 'comment between value and operator - preserves comment' => [
+            <<<'PHP'
+                <?php
+                $result = $value /* fallback if null */
+                    ?? throw new \RuntimeException('message');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $value /* fallback if null */ ?? throw new \RuntimeException('message');
+                PHP,
+        ];
+
+        yield 'inside closure' => [
+            <<<'PHP'
+                <?php
+                $closure = function ($id) {
+                    return $this->find($id)
+                        ?? throw new \RuntimeException('Not found');
+                };
+                PHP,
+            <<<'PHP'
+                <?php
+                $closure = function ($id) {
+                    return $this->find($id) ?? throw new \RuntimeException('Not found');
+                };
+                PHP,
+        ];
+
+        yield 'property access with variable property name' => [
+            <<<'PHP'
+                <?php
+                $result = $obj->$property
+                    ?? throw new \RuntimeException('Property not found');
+                PHP,
+            <<<'PHP'
+                <?php
+                $result = $obj->$property ?? throw new \RuntimeException('Property not found');
+                PHP,
+        ];
+
+        yield 'deeply nested class' => [
+            <<<'PHP'
+                <?php
+                class Outer
+                {
+                    public function test(): void
+                    {
+                        $closure = function () {
+                            $fn = fn($x) => $x
+                                ?? throw new \RuntimeException('message');
+                        };
+                    }
+                }
+                PHP,
+            <<<'PHP'
+                <?php
+                class Outer
+                {
+                    public function test(): void
+                    {
+                        $closure = function () {
+                            $fn = fn($x) => $x ?? throw new \RuntimeException('message');
+                        };
+                    }
+                }
+                PHP,
+        ];
     }
 }
