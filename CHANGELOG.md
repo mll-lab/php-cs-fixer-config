@@ -9,6 +9,12 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## v5.13.0
+
+### Added
+
+- Add `LineBreakBeforeThrowExpressionFixer` https://github.com/mll-lab/php-cs-fixer-config/pull/14
+
 ## v5.12.0
 
 ### Added
