@@ -8,6 +8,10 @@
     <testsuites>
         <testsuite name="Tests">
             <directory>tests</directory>
+            <exclude>tests/Fixer/Php80</exclude>
+        </testsuite>
+        <testsuite name="Php80">
+            <directory phpVersion="8.0" phpVersionOperator="&gt;=">tests/Fixer/Php80</directory>
         </testsuite>
     </testsuites>
 </phpunit>
