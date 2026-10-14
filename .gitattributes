@@ -4,3 +4,6 @@
 .php-cs-fixer.php export-ignore
 CONTRIBUTING.md export-ignore
 Makefile export-ignore
+package.json export-ignore
+package-lock.json export-ignore
+.releaserc.json export-ignore
