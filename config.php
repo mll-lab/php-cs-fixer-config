@@ -87,6 +87,7 @@ function config(Finder $finder, array $ruleOverrides = []): Config
             'less_and_greater' => false,
         ],
 
+        Fixer\BlankLineAfterTraitImportsFixer::NAME => true,
         Fixer\LineBreakBeforeThrowExpressionFixer::NAME => true,
         Fixer\PhpdocSimplifyArrayKeyFixer::NAME => true,
 
@@ -98,6 +99,7 @@ function config(Finder $finder, array $ruleOverrides = []): Config
     return (new Config())
         ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
         ->registerCustomFixers([
+            new Fixer\BlankLineAfterTraitImportsFixer(),
             new Fixer\LineBreakBeforeThrowExpressionFixer(),
             new Fixer\PhpdocSimplifyArrayKeyFixer(),
         ])
