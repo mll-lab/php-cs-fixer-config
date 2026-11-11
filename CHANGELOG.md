@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.14.0](https://github.com/mll-lab/php-cs-fixer-config/compare/v5.13.0...v5.14.0) (2026-11-11)
+
+### Features
+
+* add BlankLineAfterTraitImportsFixer ([#16](https://github.com/mll-lab/php-cs-fixer-config/issues/16)) ([33b47c0](https://github.com/mll-lab/php-cs-fixer-config/commit/33b47c0090efeb2edf064a5386ef2d98d6629355))
+
 ## v5.13.0
 
 ### Added
