@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.14.1](https://github.com/mll-lab/php-cs-fixer-config/compare/v5.14.0...v5.14.1) (2026-11-18)
+
+### Bug Fixes
+
+* remove deprecated new_with_braces ([#17](https://github.com/mll-lab/php-cs-fixer-config/issues/17)) ([1e8fdef](https://github.com/mll-lab/php-cs-fixer-config/commit/1e8fdef557d2d23685277be4b55cfff8336dade0))
+
 ## [5.14.0](https://github.com/mll-lab/php-cs-fixer-config/compare/v5.13.0...v5.14.0) (2026-11-11)
 
 ### Features
