@@ -43,7 +43,6 @@ function config(Finder $finder, array $ruleOverrides = []): Config
         'multiline_whitespace_before_semicolons' => [
             'strategy' => 'no_multi_line',
         ],
-        'new_with_braces' => true,
         'no_superfluous_elseif' => true,
         'no_superfluous_phpdoc_tags' => true,
         'no_useless_else' => true,
